@@ -1,0 +1,58 @@
+.select-container{
+    width: 100%;
+    display: flex;
+ 
+    /* margin-bottom: 1rem; */
+}
+.store-image-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+}
+.side-image-container{
+    width: 40%; 
+    display:flex;
+    flex-direction: column !important;
+     justify-content: space-between;
+    /* display: flex;
+    align-items: center;
+    flex-wrap: wrap; */
+}
+.side-image-item{
+    display: flex;
+    height: 49%;
+    background-image: url("https://images.idgesg.net/images/article/2020/10/left-side-100861571-orig.jpg");
+}
+.store-information{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.divider-container{
+    display: flex;
+    width: 100%;
+}
+.image-container{
+    width: 100%;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.back-btn-container{
+    display: flex;
+    margin-bottom: 1rem;
+}
+.back-btn{
+    background-color: darkgrey;
+    color:white;
+}
+.btn{
+    font-size: 16px !important;
+    background-color: brown !important;
+    color: white !important;
+}
