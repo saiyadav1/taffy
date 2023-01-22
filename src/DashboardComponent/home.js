@@ -32,11 +32,9 @@ const Home = () => {
       setCities([...cityArr]);
       setSelectedCity(cityArr[0]);
       setProgressLoading(false);
-      
     });
     setTimeout(()=>{
       setProgressLoading(false);
-      
     },[15000])
   }, []);
 

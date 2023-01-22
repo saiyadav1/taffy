@@ -51,13 +51,13 @@ const AllDemartStores = ({
     if (Object.keys(selectedcity).length != 0 &&Object.keys(selectedBrand).length != 0) {
       const AllStoreRef = ref(
         database,
-        "BrandsExplorer" + `/${selectedcity.name}` + `/${selectedBrand.id}`
+        "BrandsExplorer" + `/${selectedcity.id}` + `/${selectedBrand.id}`
       );
       onValue(AllStoreRef, (snapshot) => {
         const brands = snapshot.val();
         let brandsArr = [];
         for (let brand in brands) {
-          brandsArr.push({ ...brands[brand], martName: brand });
+          brandsArr.push({ ...brands[brand], mart_id: brand });
         }
         setallStoreOption([...brandsArr]);
       });
@@ -119,7 +119,7 @@ const AllDemartStores = ({
           ref(
             database,
             "BrandsExplorer/" +
-              `/${selectedcity.name}` +
+              `/${selectedcity.id}` +
               `/${selectedBrand.id}` +
               `/${newbrandKey}`
           ),
@@ -128,7 +128,8 @@ const AllDemartStores = ({
             closeAt: AddnewFormData.closeAt,
             contact: AddnewFormData.contact,
             count: new_count + 1,
-            id: AddnewFormData.id.split(' ').join(''),
+            id: AddnewFormData.id.split(' ').join('').toLowerCase(),
+            name:AddnewFormData.id,
             opensAt: AddnewFormData.opensAt,
             rating: "",
             totalRating: "",
@@ -230,9 +231,15 @@ const AllDemartStores = ({
     setDeleteModalOpen(true);
   };
   const handleDeleteMartData = () => {
-  console.log('selected',"BrandsExplorer" + `/${selectedcity.name}`+`/${selectedBrand.id}`+`/${deleteeModalData.martName}`)
-    remove(ref(database, "BrandsExplorer" + `/${selectedcity.name}`+`/${selectedBrand.id}`+`/${deleteeModalData.martName}`))
-      .then(() =>{ console.log("Brand Data deleted successfully")})
+    remove(ref(database, "BrandsExplorer" + `/${selectedcity.id}`+`/${selectedBrand.id}`
+    +`/${deleteeModalData.mart_id}`))
+      .then(() =>{ 
+        remove(ref(database, "Offers" + `/${selectedcity.id}`+`/${selectedBrand.id}`+`/${deleteeModalData.id}`))
+        .then(()=>{
+          console.log("Brand Data deleted successfully");
+        })
+        .catch((err)=>{console.log('error message',err.message)})
+      })
       .catch((err) => {console.log("got an error while deleting city adta")});
       setDeleteModalOpen(false);
   };
@@ -287,7 +294,7 @@ const AllDemartStores = ({
                   alt="store-image"
                 />
               </Grid>
-              <Grid className="all-store-item-name">{store.id}</Grid>
+              <Grid className="all-store-item-name">{store.name}</Grid>
               <Grid className="all-store-item-phoneNo">{store.contact}</Grid>
               <Grid className="all-store-item-phoneNo">{store.address}</Grid>
               <Grid className="all-store-item-phoneNo">

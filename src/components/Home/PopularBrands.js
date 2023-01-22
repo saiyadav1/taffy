@@ -49,11 +49,12 @@ const PopularBrands = ({ selectedcity, setSelectedbrand }) => {
 
   useEffect(() => {
     if (Object.keys(selectedcity).length != 0) {
-      const BrandRef = ref(database, "Brands" + `/${selectedcity.name}`);
+      // const BrandRef = ref(database, "Brands" + `/${selectedcity.name}`);
+      const BrandRef = ref(database, "Brands" + `/${selectedcity.id}`);
       onValue(BrandRef, (snapshot) => {
         const brands = snapshot.val();
         let brandsArr = [];
-        for (let brand in brands) {
+        for (let brand in brands){
           brandsArr.push({ ...brands[brand], brand_name: brand });
         }
         setPopularBrandOptions([...brandsArr]);
@@ -74,8 +75,7 @@ const PopularBrands = ({ selectedcity, setSelectedbrand }) => {
   };
   const handleAddNewBrand = () => {
     let currentDate = new Date();
-    let newbrandKey = `Brand${currentDate.getFullYear()}${
-      currentDate.getMonth() + 1
+    let newbrandKey = `Brand${currentDate.getFullYear()}${currentDate.getMonth() + 1
     }${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}`;
     const storageRef = storageRefs(storage, `Brands Logo/${newimageFileName}`);
     uploadBytes(storageRef, newimageFile).then((snapshot) => {
@@ -90,11 +90,12 @@ const PopularBrands = ({ selectedcity, setSelectedbrand }) => {
         set(
           ref(
             database,
-            "Brands/" + `/${selectedcity.name}` + `/${newbrandKey}`
+            "Brands/" + `/${selectedcity.id}` + `/${newbrandKey}`
           ),
           {
             count: new_count + 1,
-            id: newbrandName.split(' ').join(''),
+            id: newbrandName.split(' ').join('').toLowerCase(),
+            name:newbrandName,
             url: url,
           }
         ).then(() => {
@@ -123,22 +124,20 @@ const PopularBrands = ({ selectedcity, setSelectedbrand }) => {
     setopenDeleteModal(true);
   };
   const handleDeletemart = () => {
+    console.log('delete',deleteFormData)
     remove(
-      ref(
-        database,
-        "Brands/" + `/${selectedcity.name}` + `/${deleteFormData.brand_name}`
-      )
+      ref(database,"Brands/" + `/${selectedcity.id}` + `/${deleteFormData.brand_name}`)
     ).then(() => {
       remove(
         ref(
           database,
-          "BrandsExplorer/" + `/${selectedcity.name}` + `/${deleteFormData.id}`
+          "BrandsExplorer/" + `/${selectedcity.id}` + `/${deleteFormData.id}`
         )
       ).then(() => {
         remove(
           ref(
             database,
-            "Offers/" + `/${selectedcity.name}` + `/${deleteFormData.id}`
+            "Offers/" + `/${selectedcity.id}` + `/${deleteFormData.id}`
           )
         );
         setopenDeleteModal(false);
@@ -195,7 +194,7 @@ const PopularBrands = ({ selectedcity, setSelectedbrand }) => {
                   className="btn"
                   onClick={() => handleSelectedBrand(brand)}
                 >
-                  {brand.id}
+                  {brand.name}
                 </Button>
                 </Grid>
               </Grid>

@@ -55,7 +55,8 @@ const Cities = ({ cities, setCities, setSelectedCity }) => {
    count=new_copy_arr[0].count;
     set(ref(database, "City/" + `/City${count + 1}`), {
       count: options[0].count + 1,
-      name: newCityName.split(' ').join()
+      name: newCityName,
+      id:newCityName.split(' ').join('').toLowerCase()
     });
     setNewCityName("");
     setopenModalAddNewCity(false);
@@ -72,17 +73,17 @@ const Cities = ({ cities, setCities, setSelectedCity }) => {
 
   const handleDeleteCityModalOpen = (e, data) => {
     setOpenDeleteModal(true);
-    // setDeleteCityIndex(index);
     setDeleteData(data);
   };
 
   const handleDeleteCity = () => {
+    console.log('deleteData');
     remove(ref(database, "City/" + `/City${deleteData.count}`))
       .then(() => {
-        remove(ref(database, "Brands" + `/${deleteData.name}`)).then(() => {
-          remove(ref(database, "BrandsExplorer" + `/${deleteData.name}`)).then(
+        remove(ref(database, "Brands" + `/${deleteData.id}`)).then(() => {
+          remove(ref(database, "BrandsExplorer" + `/${deleteData.id}`)).then(
             () => {
-              remove(ref(database, "Offers" + `/${deleteData.name}`)).then(
+              remove(ref(database, "Offers" + `/${deleteData.id}`)).then(
                 () => {
                   console.log("deleted all data successfully");
                 }

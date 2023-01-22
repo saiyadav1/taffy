@@ -52,9 +52,9 @@ const StoreOffer = ({
     const OffersRef = ref(
       database,
       "Offers" +
-        `/${selectedcity.name}` +
+        `/${selectedcity.id}` +
         `/${selectedBrand.id}` +
-        `/${selectedMart.martName}`
+        `/${selectedMart.id}`
     );
     onValue(OffersRef, (snapshot) => {
       const offers = snapshot.val();
@@ -103,9 +103,9 @@ const StoreOffer = ({
             ref(
               database,
               "Offers/" +
-                `/${selectedcity.name}` +
+                `/${selectedcity.id}` +
                 `/${selectedBrand.id}` +
-                `/${selectedMart.martName}` +
+                `/${selectedMart.id}` +
                 `/${newbrandKey}`
             ),
             {
@@ -130,9 +130,9 @@ const StoreOffer = ({
       ref(
         database,
         "Offers" +
-          `/${selectedcity.name}` +
+          `/${selectedcity.id}` +
           `/${selectedBrand.id}` +
-          `/${selectedMart.martName}` +
+          `/${selectedMart.id}` +
           `/${offer.id}`
       )
     )
